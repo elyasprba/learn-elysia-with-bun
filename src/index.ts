@@ -1,7 +1,21 @@
-import { Elysia } from "elysia";
+import { Elysia } from 'elysia';
+import { swagger } from '@elysiajs/swagger';
+import { notesRouter } from './routes/notesRouter';
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+new Elysia()
+  .use(
+    swagger({
+      path: '/docs',
+      version: '1.0.0',
+    })
+  )
+  .get('/ping', ({ set }) => {
+    set.status = 200;
+    return {
+      message: 'pong',
+    };
+  })
+  .use(notesRouter)
+  .listen(8000);
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+console.log('Note backend running on 8000');
