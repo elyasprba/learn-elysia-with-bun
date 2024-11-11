@@ -2,7 +2,9 @@ import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
 import { notesRouter } from './routes/notesRouter';
 
-new Elysia()
+const port = process.env.PORT || 8000;
+
+export const app = new Elysia()
   .use(
     swagger({
       path: '/docs',
@@ -16,6 +18,6 @@ new Elysia()
     };
   })
   .use(notesRouter)
-  .listen(8000);
+  .listen(port);
 
 console.log('Note backend running on 8000');
